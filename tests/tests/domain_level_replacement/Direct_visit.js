@@ -2,52 +2,14 @@ var id = require('test');
 
 var cssTags = ["div#NTR_number", "div.class_number", "div#id_number"];
 
-// var urls = require ('urls');
-// var url;
-// var activity;
 
-// function getOriginals(test, ntr, id, css){
-// 	var original_id, original_class, original_NTR;
-// 	var originals=[];
-// 	original_id=this.evaluate(id.getId);
-// 	original_class=this.evaluate(id.getClass);
-// 	original_NTR=this.evaluate(id.getNTR);
-
-// 	originals = [original_NTR, original_class, original_id];
-// 	return originals;
-
-// }
-
-
-// Number replacement works for Direct Visit activity
-
-// for (key in urls){
-// 	if (key=="direct_visit"){
-// 		url=urls[key];
-// 		activity=key;
-// 	}
-// 	else if (key=="tagged_url"){
-// 		url=urls[key];
-// 		activity=key;
-// 	}
-// 	else if (key=="custom_tagged_url"){
-// 		url=urls[key];
-// 		activity=key;
-// 	}
-// }
-
-//if (activity=="direct_visit"){
 	casper.test.begin('Check Direct Visit number replacement', 3, function(test){
 		var url= 'http://portal.ifbyphone.local/aly/index.html'
 		var original_id, original_class, original_NTR;
 		var arrayLength;
 		var originals;
 
-		casper.start(url);
-
-		casper.then(function() {
-
-
+		casper.start(url, function() {
 
 		original_id=this.evaluate(id.getId);
 		original_class=this.evaluate(id.getClass);
@@ -70,11 +32,11 @@ var cssTags = ["div#NTR_number", "div.class_number", "div#id_number"];
 				this.echo(originals[x]);
 			}
 
-			var cookies=phantom.cookies;
-			console.log('cookies:');
-			for (var i in cookies){
-				console.log(cookies[i].name + '=' + cookies[i].value);
-			}
+			// var cookies=phantom.cookies;
+			// console.log('cookies:');
+			// for (var i in cookies){
+			// 	console.log(cookies[i].name + '=' + cookies[i].value);
+			// }
 
 
 			}).
@@ -92,9 +54,7 @@ casper.test.begin('Check Direct Visit number replacement Formats', 14, function(
 	var x;
 	var changed_format=[];
 
-	casper.start(url);
-
-	casper.then(function() {
+	casper.start(url, function() {
 
 		format=this.evaluate(id.getFormattedElements);
 		this.echo(format);

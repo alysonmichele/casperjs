@@ -15,16 +15,6 @@ exports.getNTR = function(){
     return ntr.innerHTML;
 }
 
-exports.getOriginals = function(){
-	var original_id, original_class, original_NTR;
-	var originals;
-	original_id=getId();
-	original_class=getClass();
-	original_NTR=getNTR();
-	originals = [original_NTR, original_class, original_id];
-	return originals;
-
-}
 
 exports.checkForChange = function(test, q, x) {
 	test.assertSelectorDoesntHaveText(q, x);
