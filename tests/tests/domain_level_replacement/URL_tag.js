@@ -5,68 +5,83 @@ var cssTags = ["div#NTR_number", "div.class_number", "div#id_number"];
 
 // Number replacement works for URL tag activity
 
-casper.test.begin('Check URL tag number replacement', 3, function(test){
-	var url= 'http://portal.ifbyphone.local/aly/index.html?st-t=test'
-	var original_id;
-	var original_class;
-	var original_NTR;
+var url='http://asimkins.com?st-t=test';
 
-	casper.start(url, function() {
 
-		original_id=this.evaluate(getID);
-		this.echo(original_id);
-		original_class=this.evaluate(getClass);
-		this.echo(original_class);
-		original_NTR=this.evaluate(getNTR);
-		this.echo(original_NTR);
+// Number replacement works for URL tag activity
 
-	});
-		casper.wait(2000, function(){
+	casper.test.begin('Check Tagged URL number replacement', 3, function(test){
+		var original_id, original_class, original_NTR;
+		var arrayLength;
+		var originals;
 
-				test.assertSelectorDoesntHaveText('div#NTR_number', original_NTR);
+		casper.start(url, function() {
 
-				test.assertSelectorDoesntHaveText('div.class_number', original_class);
+		//evaluates
+		original_id=this.evaluate(id.getId);
+		original_class=this.evaluate(id.getClass);
+		original_NTR=this.evaluate(id.getNTR);
 
-				test.assertSelectorDoesntHaveText('div#id_number', original_id);
+		originals = [original_NTR, original_class, original_id];
 
-		}).
-		run(function(){
-		test.done();
-});
-
-});
-
-casper.test.begin('Check URL tag number replacement across pages', 4, function(test){
-	var url= 'http://portal.ifbyphone.local/aly/index.html?st-t=test'
-	var replaced_id;
-	var replaced_class;
-	var replaced_NTR;
-
-	casper.start(url, function() {
-
-		casper.wait(2000, function(){
-
-		replaced_id=this.evaluate(getID);
-		replaced_class=this.evaluate(getClass);
-		replaced_NTR=this.evaluate(getNTR);
-
-		this.echo(replaced_NTR)
-		this.echo(replaced_id)
-		this.echo(replaced_class)
-		this.click('#second_page')
+		arrayLength = originals.length;
 
 		});
+		
+		casper.wait(2000);
+		casper.then(function(){
+
+			for (var i = 0; i < arrayLength; i++){
+				id.checkForChange(test, cssTags[i], originals[i]);
+			}
+
+			for (var x = 0; x < arrayLength; x++){
+				this.echo(originals[x]);
+			}
+
+			// var cookies=phantom.cookies;
+			// console.log('cookies:');
+			// for (var i in cookies){
+			// 	console.log(cookies[i].name + '=' + cookies[i].value);
+			// }
+
+
+			}).
+			run(function(){
+			phantom.clearCookies();
+			test.done();
+	});
 
 	});
-		casper.wait(2000, function(){
 
-			test.assertUrlMatch('http://portal.ifbyphone.local/aly/page_two.html');
-			this.echo(this.getCurrentUrl());
-			test.assertSelectorHasText('div#NTR_number', replaced_NTR);
 
-			test.assertSelectorHasText('div.class_number', replaced_class);
+casper.test.begin('Check Tagged URL number replacement Formats', 14, function(test){
+	var format=[];
+	var x;
+	var changed_format=[];
 
-			test.assertSelectorHasText('div#id_number', replaced_id);
+	casper.start(url, function() {
+
+		format=this.evaluate(id.getFormattedElements);
+		this.echo(format);
+
+	});
+	
+	casper.wait(2000);
+	casper.then(function(){
+
+		changed_format=this.evaluate(id.getFormattedElements);
+		this.echo(changed_format);
+
+		//first check to make sure that something actually changed
+
+		if (format[0] != changed_format[0]){
+
+
+			for (var z = 0; z <changed_format.length; z++){
+				id.checkFormat(test, changed_format[z], format[z]);
+			}
+		}
 
 		}).
 		run(function(){
@@ -78,6 +93,64 @@ casper.test.begin('Check URL tag number replacement across pages', 4, function(t
 });
 
 
+casper.test.begin('Check Tagged number replacement formats across pages', 15, function(test){
+ 	var format=[];
+ 	var x;
+ 	var changed_format=[];
+	var arrayLength;
+
+	casper.start(url, function() {
+		
+
+		format=this.evaluate(id.getFormattedElements);
+		this.echo(format);
+
+		//wait for JS to render
+		
+
+	});
+		casper.wait(2000);
+		casper.then(function(){
+
+		//click link to second page
+		
+		this.click('#second_page');
 
 
+	});
+		casper.wait(2000);
+		casper.then(function(){
 
+		//TEST ONE: assert that we are on the second page
+
+		 test.assertUrlMatch('http://asimkins.com/page_two.html');
+		 this.echo(this.getCurrentUrl());
+
+	});
+
+		casper.wait(4000);
+		casper.then(function(){
+
+		changed_format=this.evaluate(id.getFormattedElements);
+		this.echo(changed_format);
+
+		//first check to make sure that something actually changed
+
+		if (format[0] != changed_format[0]){
+
+		//TESTS TWO - FIFTEEN: check format is the same across pages
+
+			for (var z = 0; z <changed_format.length; z++){
+				id.checkFormat(test, changed_format[z], format[z]);
+			}
+		}
+
+
+		}).
+		run(function(){
+		test.done();
+		phantom.clearCookies();
+
+});
+
+});
