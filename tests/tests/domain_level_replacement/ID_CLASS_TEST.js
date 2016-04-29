@@ -1,33 +1,17 @@
-var id = require('../test');
+require('utils');
+var id = require('../test');	
 
-var cssTags = ["div.class_number", "div#id_number"];
+var json = require('../config.json');
 
-var labels = [
-	{
-		URL: 'http://asimkins.com',
-		Type: "Direct Visit"
-	}, 
-	{
-		URL: 'http://asimkins.com?st-t=test',
-		Type: "URL Tag"
-	},
-	{
-		URL: 'http://asimkins.com?custom=test',
-		Type: "Custom URL Tag"
-	},
-	{
-		URL: 'http://asimkins.com/page_two.html',
-		Type: "Path"
-	},
-	{
-		URL: 'https://t.co/1N9iNCrATT',
-		Type: "Referrer Domain"
-	}
-	]
+
+var css_class=json.css_class;
+var css_id=json.css_id;
+var cssTags = [css_class, css_id];
+var labels= json["labels"];
 
 // Number replacement works for all activities
 
-	casper.test.begin('Number rotation suite', (labels.length*2), function suite(test){
+	casper.test.begin('Number rotation suite', (5*2), function suite(test){
 		var urls;
 		var original_id, original_class, original_NTR;
 		var arrayLength;
