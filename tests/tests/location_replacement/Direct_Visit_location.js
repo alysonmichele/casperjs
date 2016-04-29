@@ -1,52 +1,7 @@
-var id = require('test');
+var id = require('../test');
 
 var cssTags = ["div#NTR_number", "div.class_number", "div#id_number"];
-var url= 'http://asimkins.com';
-
-
-	casper.test.begin('Check Direct Visit number replacement', 3, function(test){
-		var original_id, original_class, original_NTR;
-		var arrayLength;
-		var originals;
-
-		casper.start(url, function() {
-
-		//evaluates
-		original_id=this.evaluate(id.getId);
-		original_class=this.evaluate(id.getClass);
-		original_NTR=this.evaluate(id.getNTR);
-
-		originals = [original_NTR, original_class, original_id];
-
-		arrayLength = originals.length;
-
-		});
-		
-		casper.wait(2000);
-		casper.then(function(){
-
-			for (var i = 0; i < arrayLength; i++){
-				id.checkForChange(test, cssTags[i], originals[i]);
-			}
-
-			for (var x = 0; x < arrayLength; x++){
-				this.echo(originals[x]);
-			}
-
-			// var cookies=phantom.cookies;
-			// console.log('cookies:');
-			// for (var i in cookies){
-			// 	console.log(cookies[i].name + '=' + cookies[i].value);
-			// }
-
-
-			}).
-			run(function(){
-			phantom.clearCookies();
-			test.done();
-	});
-
-	});
+var url= ['http://asimkins.com/locations/location_page.html'];
 
 
 casper.test.begin('Check Direct Visit number replacement Formats', 14, function(test){
@@ -56,7 +11,7 @@ casper.test.begin('Check Direct Visit number replacement Formats', 14, function(
 
 	casper.start(url, function() {
 
-		format=this.evaluate(id.getFormattedElements);
+		format=this.evaluate(id.getFormattedLocations);
 		this.echo(format);
 
 	});
@@ -64,7 +19,7 @@ casper.test.begin('Check Direct Visit number replacement Formats', 14, function(
 	casper.wait(2000);
 	casper.then(function(){
 
-		changed_format=this.evaluate(id.getFormattedElements);
+		changed_format=this.evaluate(id.getFormattedLocations);
 		this.echo(changed_format);
 
 		//first check to make sure that something actually changed
@@ -96,7 +51,7 @@ casper.test.begin('Check Direct Visit number replacement formats across pages', 
 	casper.start(url, function() {
 		
 
-		format=this.evaluate(id.getFormattedElements);
+		format=this.evaluate(id.getFormattedLocations);
 		this.echo(format);
 
 		//wait for JS to render
@@ -108,7 +63,7 @@ casper.test.begin('Check Direct Visit number replacement formats across pages', 
 
 		//click link to second page
 		
-		this.click('#second_page');
+		this.click('#second_location_page');
 
 
 	});
@@ -117,7 +72,7 @@ casper.test.begin('Check Direct Visit number replacement formats across pages', 
 
 		//TEST ONE: assert that we are on the second page
 
-		 test.assertUrlMatch('http://asimkins.com/page_two.html');
+		 test.assertUrlMatch('http://asimkins.com/locations/second_location_page.html');
 		 this.echo(this.getCurrentUrl());
 
 	});
@@ -125,10 +80,8 @@ casper.test.begin('Check Direct Visit number replacement formats across pages', 
 		casper.wait(4000);
 		casper.then(function(){
 
-		this.capture('screenshot2.png');
 
-
-		changed_format=this.evaluate(id.getFormattedElements);
+		changed_format=this.evaluate(id.getFormattedLocations);
 		this.echo(changed_format);
 
 		//first check to make sure that something actually changed
