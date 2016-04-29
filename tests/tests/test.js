@@ -35,6 +35,17 @@ exports.getFormattedElements = function(){
 	return num;
 }
 
+exports.getFormattedLocations = function(){
+	var elements = document.getElementsByClassName("formatted_location");
+	var num = [];
+	var y;
+	for (var i =0; i < elements.length; i++){
+		y=elements[i].innerHTML;
+		num.push(y);
+	}
+	return num;
+}
+
 exports.checkFormat = function(test, q, z){
 	var spaces = new RegExp("\\d{3}\\s\\d{3}\\s\\d{4}");
 	var dashes = new RegExp("\\d{3}[-]\\d{3}[-]\\d{4}");
