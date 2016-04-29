@@ -1,0 +1,30 @@
+{
+	"whitelist": "555-555-5555",
+
+	"css_class": "div.class_number",
+
+	"css_id":"div#id_number",
+
+	"labels":[
+	{
+		"URL": "http://asimkins.com",
+		"Type": "Direct Visit"
+	}, 
+	{
+		"URL": "http://asimkins.com?st-t=test",
+		"Type": "URL Tag"
+	},
+	{
+		"URL": "http://asimkins.com?custom=test",
+		"Type": "Custom URL Tag"
+	},
+	{
+		"URL": "http://asimkins.com/page_two.html",
+		"Type": "Path"
+	},
+	{
+		"URL": "https://t.co/1N9iNCrATT",
+		"Type": "Referrer Domain"
+	}
+	]
+}
