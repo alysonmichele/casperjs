@@ -8,10 +8,13 @@ var css_class=json.css_class;
 var css_id=json.css_id;
 var cssTags = [css_class, css_id];
 var labels= json["labels"];
+var main_page = json.main_page;
+var second_page = json.second_page;
+var formatted=json.formatted;
 
 // Number replacement works for all activities
 
-	casper.test.begin('Number rotation suite', (labels.length*15), function suite(test){
+	casper.test.begin('Number rotation across pages suite', (labels.length*15), function suite(test){
 		var urls;
 		var format=[];
 		var x;
@@ -29,9 +32,9 @@ var labels= json["labels"];
 				
 				var j=++i;
 				if (urls[j].Type=='Path'){
-					page='a#main_page';
+					page=main_page;
 				} else {
-					page='a#second_page';
+					page=second_page;
 				}
 				this.echo("Activity: " + urls[j].Type);
 				this.thenOpen(urls[j].URL, function(){
@@ -41,9 +44,9 @@ var labels= json["labels"];
 					//this.echo(format);
 
 					//wait for ST to execute
-					casper.waitForSelectorTextChange('div.formatted', function(){
+					casper.waitForSelectorTextChange(formatted, function(){
 						this.echo('format has changed');
-						this.echo(this.getHTML('div.formatted'));
+						this.echo(this.getHTML(formatted));
 					});
 
 

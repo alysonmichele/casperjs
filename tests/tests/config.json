@@ -5,6 +5,12 @@
 
 	"css_id":"div#id_number",
 
+	"main_page": "a#main_page",
+
+	"second_page": "a#second_page",
+
+	"formatted": "div.formatted",
+
 	"labels":[
 	{
 		"URL": "http://asimkins.com",

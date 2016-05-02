@@ -11,7 +11,7 @@ var labels= json["labels"];
 
 // Number replacement works for all activities
 
-	casper.test.begin('Number rotation suite', (5*2), function suite(test){
+	casper.test.begin('Number rotation suite', (labels.length*2), function suite(test){
 		var urls;
 		var original_id, original_class, original_NTR;
 		var arrayLength;
@@ -29,21 +29,23 @@ var labels= json["labels"];
 				this.echo("Activity: " + urls[j].Type);
 				this.thenOpen(urls[j].URL, function(){
 					this.echo("URL: " + urls[j].URL);
-					original_id=this.getHTML('div#id_number');
-					original_class=this.getHTML('div.class_number');
+					original_id=this.getHTML(css_id);
+					original_class=this.getHTML(css_class);
 
 					originals = [original_class, original_id];
 					arrayLength = originals.length;
 
+					this.echo(original_id);
+
 					//wait for ST to execute
-					casper.waitForSelectorTextChange('div#id_number', function(){
+					casper.waitForSelectorTextChange(css_id, function(){
 						this.echo('ID has changed');
 					});
 
 				});
 
 				this.then(function(){
-					newb=this.getHTML('div#id_number');
+					newb=this.getHTML(css_id);
 					this.echo(newb);
 					for (var i = 0; i < arrayLength; i++){
 						test.assertSelectorDoesntHaveText(cssTags[i], originals[i]);
