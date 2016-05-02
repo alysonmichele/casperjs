@@ -8,11 +8,12 @@ var css_class=json.css_class;
 var css_id=json.css_id;
 var cssTags = [css_class, css_id];
 var labels= json["labels"];
+var formatted=json.formatted;
 
 
 // Number replacement works for all activities
 
-	casper.test.begin('Number rotation suite', (labels.length*14), function suite(test){
+	casper.test.begin('Number rotation for various formats suite', (labels.length*14), function suite(test){
 		var urls;
 		var format=[];
 		var x;
@@ -35,9 +36,9 @@ var labels= json["labels"];
 
 
 					//wait for ST to execute
-					casper.waitForSelectorTextChange('div.formatted', function(){
+					casper.waitForSelectorTextChange(formatted, function(){
 						this.echo('format has changed');
-						this.echo(this.getHTML('div.formatted'));
+						this.echo(this.getHTML(formatted));
 					});
 
 				});
